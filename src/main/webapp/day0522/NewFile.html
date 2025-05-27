@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- favicon 설정 -->
+<link rel="shortcut icon"
+	href="http://192.168.10.68/html_prj/common/images/favicon.ico" />
+<title>Insert title here</title>
+<!-- site 기본 CSS -->
+<link rel="stylesheet" type="text/css"
+	href="http://192.168.10.68/html_prj/common/css/main_v250409.css" />
+<!--  bootstrap CDN -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+
+<style type="text/css">
+</style>
+
+<!-- jquery CDN -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<script type="text/javascript">
+var map;
+
+function setCenter(lat, lng) {            
+    // 이동할 위도 경도 위치를 생성합니다 
+    var moveLatLon = new kakao.maps.LatLng(lat, lng);
+    
+    // 지도 중심을 이동 시킵니다
+    map.setCenter(moveLatLon);
+}
+
+function setMarker(lat, lng, msg) {
+	// 지도의 위치를 핀 가운데로 이동
+	setCenter(lat, lng);
+	
+	// 마커가 표시될 위치입니다 
+	var markerPosition  = new kakao.maps.LatLng(lat, lng); 
+
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	    position: markerPosition,
+	    clickable: true
+	});
+
+	// 마커가 지도 위에 표시되도록 설정합니다
+	marker.setMap(map);
+	
+	// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+	var output = '<';
+	var iwContent = '<div style="padding:5px;">'+ msg +'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+	// 인포윈도우를 생성합니다
+	var infowindow = new kakao.maps.InfoWindow({
+	    content : iwContent,
+	    removable : iwRemoveable
+	});
+
+	// 마커에 클릭이벤트를 등록합니다
+	kakao.maps.event.addListener(marker, 'click', function() {
+	      // 마커 위에 인포윈도우를 표시합니다
+	      infowindow.open(map, marker);  
+	});
+	
+};
+
+</script>
+</head>
+<body>
+  <div id="map" style="width: 500px; height: 400px;"></div>
+  <script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd811b0f31f210496827de3ea38119ae"></script>
+  <script>
+    var container = document.getElementById('map');
+    var options = {
+      center: new kakao.maps.LatLng(37.4992674, 127.0330423),
+      level: 3
+    };
+    map = new kakao.maps.Map(container, options);
+  </script>
+
+  <!-- 📌 기존 버튼 -->
+  <input type="button" value="제주은희네" class="btn btn-info btn-sm" id="btn" />
+
+  <!-- ✅ 추가된 랜드마크 버튼 -->
+  <input type="button" value="경복궁" class="btn btn-primary btn-sm" id="btn1" />
+  <input type="button" value="해운대" class="btn btn-success btn-sm" id="btn2" />
+  <input type="button" value="남산타워" class="btn btn-danger btn-sm" id="btn3" />
+
+  <script>
+    $(function(){
+      $('#btn').click(()=>{
+        setMarker(37.498189, 127.0315992, '제주은희네');
+      });
+
+      $('#btn1').click(()=>{
+        setMarker(37.579617, 126.977041, '경복궁');
+      });
+
+      $('#btn2').click(()=>{
+        setMarker(35.158697, 129.160384, '해운대 해수욕장');
+      });
+
+      $('#btn3').click(()=>{
+        setMarker(37.5511694, 126.9882266, '남산타워(N서울타워)');
+      });
+
+      // 초기 마커
+      setTimeout(() => {
+        setMarker(37.4992674, 127.0330423, '한독빌딩');
+      }, 100);
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- 사이트 기본 CSS -->
+    <link rel="stylesheet" type="text/css" href="../main_v250409.css" />
+    <!-- favicon 설정 -->
+    <link rel="shortcut icon" href="http://localhost/html_prj/common/images/favicon.png" />
+    <!-- bootstrap CDN -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
+    <style type="text/css">
+        #output {
+            border: 1px solid #333;
+            width: 600px;
+            height: 300px;
+        }
+    </style>
+    <script>
+        function getArrayValue() {
+            // 1. form 객체 얻기
+            var obj = document.frm;
+
+            // 2. Form Control 얻기
+            var radioArr = obj.gender;
+            var gender;
+
+            var flag = 0;
+            for (var i = 0; i < radioArr.length; i++) {
+                // alert(radioArr[i].checked + ' / ' + radioArr[i].value);
+                if(!radioArr[i].checked) {
+                    flag++;
+                } else {
+                    gender = radioArr[i].value;
+                }
+
+            }
+
+            if (flag == radioArr.length) {
+                alert("라디오 선택 하세요");
+            }
+
+            var langArr = obj.lang;
+
+            var lang = "<ul>";
+            for (var i = 0; i < langArr.length; i++) {
+                if(langArr[i].checked) {
+                    lang += `<li>${langArr[i].value}</li>`;
+                }
+            }
+            lang += "</ul>";
+
+            if (lang == "<ul></ul>") {
+                alert("체크박스 선택 하세요");
+            }
+
+            var selArr = obj.sel;
+            var sel = "";
+            for(var i = 0; i < selArr.length; i++) {
+                if(selArr[i].selected) {
+                    sel = selArr[i].value;
+                }
+            }
+            
+            var emailArr = obj.email;
+            var email = "";
+            for(var i = 0; i < emailArr.length; i++ ) {
+                email += emailArr[i].value + " ";
+            }
+
+            var output = `
+                <ul>
+                    <li><strong>선택성별</strong> ${gender} </li>
+                    <li><strong>선택언어</strong> ${lang} </li>
+                    <li><strong>선택셀렉트</strong> ${selArr.value} </li>
+                    <li><strong>입력이메일</strong> <br>${email} </li>
+                </ul>
+            `;
+    
+            document.getElementById("output").innerHTML = output;
+        }
+
+    </script>
+</head>
+
+<body>
+    <h2 align="center">name 속성의 값이 중복되는 Form Control 처리</h2>
+    <form name="frm">
+        <ul>
+            <li>
+                <label>radio</label>
+                <input type="radio" name="gender" value="M" />남자
+                <input type="radio" name="gender" value="F" />여자
+            </li>
+            <li>
+                <label>checkbox</label>
+                <input type="checkbox" name="lang" value="Java"/>Java
+                <input type="checkbox" name="lang" value="Oracle"/>Oracle
+                <input type="checkbox" name="lang" value="C/C++"/>C/C++
+                <input type="checkbox" name="lang" value="Python"/>Python
+                <input type="checkbox" name="lang" value="ASP"/>ASP
+            </li>
+            <li>
+                <input type="button" value="값 얻기" class="btn btn-success" onclick="getArrayValue()" />
+                <input type="button" value="초기화" class="btn btn-danger" />
+            </li>
+            <li>
+                <select name="sel">
+                    <option value="야호1">야호1</option>
+                    <option value="야호2">야호2</option>
+                    <option value="야호3">야호3</option>
+                    <option value="야호4">야호4</option>
+                    <option value="야호5">야호5</option>
+                </select>
+            </li>
+            <li><label>이메일</label>
+                <!-- HTML Form Control의 종류와 상관 없이
+                    name 속성이 같다면 배열로 처리된다. -->
+                <input type="text" name="email"/>
+                <input type="text" name="email"/>
+                <input type="text" name="email"/>
+            </li>
+        </ul>
+    </form>
+    <div id="output">
+    </div>
+</body>
+
+</html>
