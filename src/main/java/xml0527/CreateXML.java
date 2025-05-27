@@ -1,7 +1,7 @@
 package xml0527;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -32,7 +32,11 @@ public class CreateXML {
 		// 5. 생성된 XML을 출력, 출력객체 생성!
 		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
 		
+		// 콘솔창 출력
 		xout.output(doc, System.out);
+		
+		// 파일로 출력
+		xout.output(doc, new FileOutputStream("C:/dev/workspace/jsp_prj/src/main/webapp/xml0527/create.xml"));
 	}// createXML
 
 	public static void main(String[] args) {
